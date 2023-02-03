@@ -1,0 +1,18 @@
+from flask import Flask, request
+import json
+
+app = Flask(__name__)
+
+budget = 1000
+
+@app.route("/check_budget", methods=["POST"])
+def check_budget():
+    request_data = request.get_json()
+    expense = request_data["expense"]
+    if expense <= budget:
+        return json.dumps({"status": "success", "message": "Budget sufficient"})
+    else:
+        return json.dumps({"status": "failure", "message": "Budget exceeded"})
+
+if __name__ == '__main__':
+    app.run(debug=True)
